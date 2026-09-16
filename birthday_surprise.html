@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Advance Birthday Surprise</title>
+  <style>
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: Arial, sans-serif;
+      background:
+        linear-gradient(rgba(255, 146, 175, 0.55), rgba(255, 197, 209, 0.5)),
+        url('https://images.unsplash.com/photo-1470165511815-6f6d9c4d9e82?auto=format&fit=crop&w=1200&q=80') center/cover no-repeat;
+      text-align: center;
+      padding: 20px;
+    }
+
+    .card {
+      position: relative;
+      width: min(760px, 92vw);
+      background: rgba(255, 255, 255, 0.12);
+      backdrop-filter: blur(8px);
+      border: 1px solid rgba(255,255,255,0.25);
+      border-radius: 28px;
+      padding: 36px 26px;
+      box-shadow: 0 20px 60px rgba(0,0,0,0.18);
+      overflow: hidden;
+    }
+
+    .butterfly {
+      font-size: 44px;
+      margin-bottom: 10px;
+      animation: flutter 2s ease-in-out infinite;
+    }
+
+    @keyframes flutter {
+      0%, 100% { transform: translateY(0) rotate(0deg); }
+      50% { transform: translateY(-10px) rotate(6deg); }
+    }
+
+    h1 {
+      margin: 10px 0 18px;
+      font-size: clamp(2.2rem, 5vw, 4rem);
+      color: white;
+      text-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+    }
+
+    p {
+      font-size: clamp(1.1rem, 2.3vw, 1.6rem);
+      color: #fffafc;
+      line-height: 1.7;
+      margin: 10px 0;
+    }
+
+    .name {
+      font-size: clamp(1.6rem, 3vw, 2.5rem);
+      font-weight: bold;
+    }
+
+    .btn {
+      margin-top: 18px;
+      padding: 18px 34px;
+      border: none;
+      border-radius: 999px;
+      background: linear-gradient(135deg, #ff4d6d, #ff7b54);
+      color: white;
+      font-size: 1.1rem;
+      font-weight: bold;
+      cursor: pointer;
+      box-shadow: 0 10px 25px rgba(255, 77, 109, 0.4);
+      transition: transform 0.2s ease;
+    }
+
+    .btn:hover { transform: translateY(-2px); }
+
+    .surprise {
+      display: none;
+      font-size: clamp(2.2rem, 5vw, 4.1rem);
+      color: white;
+      margin-top: 24px;
+      font-weight: 700;
+      text-shadow: 0 4px 12px rgba(0,0,0,0.2);
+      animation: pulse 1.2s infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% { transform: scale(1); }
+      50% { transform: scale(1.08); }
+    }
+
+    .question {
+      display: none;
+      margin-top: 26px;
+    }
+
+    .question h2 {
+      color: white;
+      font-size: clamp(1.4rem, 3vw, 2.4rem);
+      margin-bottom: 16px;
+    }
+
+    .choice-row {
+      position: relative;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 18px;
+      flex-wrap: wrap;
+      min-height: 90px;
+      padding: 12px 0;
+    }
+
+    .choice-btn {
+      position: relative;
+      padding: 14px 28px;
+      border: none;
+      border-radius: 999px;
+      font-size: 1.1rem;
+      font-weight: bold;
+      cursor: pointer;
+      color: white;
+      transition: transform 0.2s ease;
+    }
+
+    .choice-btn:hover { transform: translateY(-2px); }
+
+    .yes { background: linear-gradient(135deg, #2ec772, #1d9d66); }
+    .no { background: linear-gradient(135deg, #ff7a59, #ff4d6d); }
+
+    .quote {
+      display: none;
+      margin-top: 24px;
+      color: white;
+      font-size: clamp(1.2rem, 2.3vw, 1.8rem);
+      line-height: 1.8;
+      font-style: italic;
+      background: rgba(255,255,255,0.08);
+      border-radius: 18px;
+      padding: 18px 20px;
+      border: 1px solid rgba(255,255,255,0.18);
+    }
+  </style>
+</head>
+<body>
+  <div class="card">
+    <div class="butterfly">🦋</div>
+    <h1>Advance Happy Birthday, Pavithra Kondapur!</h1>
+    <p>Your birthday is coming soon, and I just wanted to say this before the day arrives.</p>
+    <p class="name">You are my favorite person, my sweetest smile, and my biggest blessing.</p>
+
+    <button class="btn" id="mainBtn">Click Here 💖</button>
+
+    <div class="surprise" id="surpriseText">Happy 22nd Birthday! 🎉</div>
+
+    <div class="question" id="dateQuestion">
+      <h2>Can we go on a date soon? 😊</h2>
+      <div class="choice-row" id="choiceRow">
+        <button class="choice-btn yes" id="yesBtn">Yes 💕</button>
+        <button class="choice-btn no" id="noBtn">No 😅</button>
+      </div>
+    </div>
+
+    <div class="quote" id="quoteText">
+      “You are the best chapter in my life, and somehow every day with you feels like a beautiful beginning.
+      I don’t know what tomorrow will bring, but I know I want more moments, more laughter, and more love with you.
+      I’m loving this journey with you more and more every day.”
+    </div>
+  </div>
+
+  <script>
+    const mainBtn = document.getElementById('mainBtn');
+    const surpriseText = document.getElementById('surpriseText');
+    const dateQuestion = document.getElementById('dateQuestion');
+    const yesBtn = document.getElementById('yesBtn');
+    const noBtn = document.getElementById('noBtn');
+    const quoteText = document.getElementById('quoteText');
+    const choiceRow = document.getElementById('choiceRow');
+
+    const age = 22;
+    const ageText = '22nd';
+
+    mainBtn.addEventListener('click', function () {
+      surpriseText.style.display = 'block';
+      surpriseText.textContent = `Happy ${ageText} Birthday in advance! 🎉`;
+      mainBtn.style.display = 'none';
+      dateQuestion.style.display = 'block';
+    });
+
+    yesBtn.addEventListener('click', function () {
+      dateQuestion.style.display = 'none';
+      quoteText.style.display = 'block';
+    });
+
+    let noAttempts = 0;
+    noBtn.addEventListener('click', function () {
+      noAttempts += 1;
+
+      const rowWidth = choiceRow.clientWidth;
+      const rowHeight = choiceRow.clientHeight;
+      const moveX = Math.random() * (rowWidth - 140);
+      const moveY = Math.random() * (rowHeight - 50);
+
+      noBtn.style.position = 'absolute';
+      noBtn.style.left = `${moveX}px`;
+      noBtn.style.top = `${moveY}px`;
+      noBtn.style.transform = 'none';
+      noBtn.textContent = 'No 😅';
+
+      if (noAttempts >= 5) {
+        noBtn.style.display = 'none';
+      }
+    });
+  </script>
+</body>
+</html>
